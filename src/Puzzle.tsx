@@ -77,7 +77,7 @@ const Puzzle: React.FC = () => {
   function handleChange(x: number, y: number, value: string) {
     let number: number;
     if (value) {
-      number = parseInt(value);
+      number = parseInt(value, 10);
       if (isValidNumber(number)) {
         const newGrid = setNumber(grid, x, y, number);
         setGrid(newGrid);
@@ -130,6 +130,7 @@ const Puzzle: React.FC = () => {
                   onChange={event =>
                     handleChange(xIndex, yIndex, event.target.value)
                   }
+                  //   value={grid[xIndex][yIndex]}
                 />
               </Grid>
             ))}
