@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-type NumberRange = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+type NumberRange = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | "";
 type SudokuRow = [
   NumberRange,
   NumberRange,
@@ -51,19 +51,19 @@ function setNumber(
   y: number,
   value: NumberRange
 ): SudokuGrid {
-  const newGrid = grid.map(row => row.slice() as SudokuRow) as SudokuGrid;
+  const newGrid = grid.map(row => [...row] as SudokuRow) as SudokuGrid;
   newGrid[x][y] = value;
   return newGrid;
 }
 
-function isValidNumber(value: number): value is NumberRange {
-  return [1, 2, 3, 4, 5, 6, 7, 8, 9].includes(value);
+function isValidNumber(value: number | ""): value is NumberRange {
+  return [1, 2, 3, 4, 5, 6, 7, 8, 9, ""].includes(value);
 }
 
 const Puzzle: React.FC = () => {
   const classes = useStyles();
   const [grid, setGrid] = useState<SudokuGrid>([
-    [1, 2, 3, 4, 5, 6, 7, 8, 9],
+    ["", "", "", "", "", "", "", "", ""],
     [1, 2, 3, 4, 5, 6, 7, 8, 9],
     [1, 2, 3, 4, 5, 6, 7, 8, 9],
     [1, 2, 3, 4, 5, 6, 7, 8, 9],
@@ -74,15 +74,18 @@ const Puzzle: React.FC = () => {
     [1, 2, 3, 4, 5, 6, 7, 8, 9]
   ]);
 
-  function handleChange(x: number, y: number, value: string) {
-    let number: number;
-    if (value) {
-      number = parseInt(value, 10);
-      if (isValidNumber(number)) {
-        const newGrid = setNumber(grid, x, y, number);
-        setGrid(newGrid);
-        console.log(grid);
-      }
+  function handleChange(x: number, y: number, input: string) {
+    let newGridValue: number | "";
+    if (parseInt(input, 10) > 0 && parseInt(input, 10) < 10) {
+      newGridValue = parseInt(input, 10);
+    } else if (input === "") {
+      newGridValue = "";
+    } else {
+      return;
+    }
+    if (isValidNumber(newGridValue)) {
+      const newGrid = setNumber(grid, x, y, newGridValue);
+      setGrid(newGrid);
     }
   }
 
@@ -130,7 +133,7 @@ const Puzzle: React.FC = () => {
                   onChange={event =>
                     handleChange(xIndex, yIndex, event.target.value)
                   }
-                  //   value={grid[xIndex][yIndex]}
+                  value={grid[xIndex][yIndex]}
                 />
               </Grid>
             ))}
