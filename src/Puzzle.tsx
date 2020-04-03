@@ -68,7 +68,10 @@ const Puzzle: React.FC = () => {
     if (input) {
       number = parseInt(input);
       if (isValidNumber(number)) {
-        console.log("valid number");
+        const newGrid = setNumber(grid, x, y, number);
+        console.log(grid, x, y, number);
+        setGrid(newGrid);
+        console.log(grid);
       } else {
         console.log("invalid number");
       }
