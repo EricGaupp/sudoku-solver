@@ -1,13 +1,25 @@
 import React, { useState } from "react";
-import { makeStyles } from "@material-ui/core/styles";
-import { Button, Grid, Typography } from "@material-ui/core";
+import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
+import { Button, Grid, InputBase, Typography } from "@material-ui/core";
 
-const useStyles = makeStyles({
-  root: { marginTop: "1em" },
-  column: {
-    border: "3px black solid"
-  }
-});
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: { marginTop: "1em" },
+    column: {
+      border: "3px black solid"
+    },
+    inputBase: {
+      margin: theme.spacing(1)
+    },
+    removedArrows: {
+      textAlign: "center",
+      "&::-webkit-inner-spin-button, input::-webkit-outer-spin-button": {
+        WebkitAppearance: "none",
+        margin: 0
+      }
+    }
+  })
+);
 
 type NumberRange = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
 type SudokuRow = [
@@ -62,12 +74,10 @@ const Puzzle: React.FC = () => {
     [1, 2, 3, 4, 5, 6, 7, 8, 9]
   ]);
 
-  function handleClick(x: number, y: number) {
-    const input = prompt();
-    console.log(input);
+  function handleChange(x: number, y: number, value: string) {
     let number: number;
-    if (input) {
-      number = parseInt(input);
+    if (value) {
+      number = parseInt(value);
       if (isValidNumber(number)) {
         const newGrid = setNumber(grid, x, y, number);
         setGrid(newGrid);
@@ -106,9 +116,21 @@ const Puzzle: React.FC = () => {
                 xs
                 container
                 justify="center"
-                onClick={() => handleClick(xIndex, yIndex)}
               >
-                {column}
+                <InputBase
+                  className={classes.inputBase}
+                  type="number"
+                  fullWidth
+                  inputProps={{
+                    "aria-label": "naked",
+                    min: 1,
+                    max: 9,
+                    className: classes.removedArrows
+                  }}
+                  onChange={event =>
+                    handleChange(xIndex, yIndex, event.target.value)
+                  }
+                />
               </Grid>
             ))}
           </Grid>
