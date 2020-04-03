@@ -5,8 +5,32 @@ import { Button, Grid, InputBase, Typography } from "@material-ui/core";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: { marginTop: "1em" },
+    row: {
+      borderLeft: "3px solid black",
+      borderRight: "3px solid black",
+      "&:nth-child(n)": {
+        borderTop: "1px solid black"
+      },
+      "&:nth-child(3n-2)": {
+        borderTop: "3px solid black"
+      },
+      "&:last-child": {
+        borderBottom: "3px solid black"
+      }
+    },
     column: {
-      border: "3px black solid"
+      "&:first-child": {
+        borderLeft: "none"
+      },
+      "&:nth-child(n+2)": {
+        borderLeft: "1px solid black"
+      },
+      "&:nth-child(3n)": {
+        borderRight: "3px solid black"
+      },
+      "&:last-child": {
+        borderRight: "none"
+      }
     },
     inputBase: {
       margin: theme.spacing(1)
@@ -64,14 +88,14 @@ const Puzzle: React.FC = () => {
   const classes = useStyles();
   const [grid, setGrid] = useState<SudokuGrid>([
     ["", "", "", "", "", "", "", "", ""],
-    [1, 2, 3, 4, 5, 6, 7, 8, 9],
-    [1, 2, 3, 4, 5, 6, 7, 8, 9],
-    [1, 2, 3, 4, 5, 6, 7, 8, 9],
-    [1, 2, 3, 4, 5, 6, 7, 8, 9],
-    [1, 2, 3, 4, 5, 6, 7, 8, 9],
-    [1, 2, 3, 4, 5, 6, 7, 8, 9],
-    [1, 2, 3, 4, 5, 6, 7, 8, 9],
-    [1, 2, 3, 4, 5, 6, 7, 8, 9]
+    ["", "", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", "", ""]
   ]);
 
   function handleChange(x: number, y: number, input: string) {
@@ -98,18 +122,20 @@ const Puzzle: React.FC = () => {
       alignItems="center"
     >
       <Grid item container justify="center">
-        <Typography variant="h2">Sudoku Solver</Typography>
+        <Typography variant="h2" align="center">
+          Sudoku Solver
+        </Typography>
       </Grid>
       <Grid item container direction="column" alignItems="center">
         {grid.map((row, xIndex) => (
           <Grid
             key={`row${xIndex}`}
+            className={classes.row}
             item
-            xs={12}
+            xs={11}
             md={9}
             lg={6}
             container
-            justify="center"
           >
             {row.map((column, yIndex) => (
               <Grid
@@ -118,7 +144,6 @@ const Puzzle: React.FC = () => {
                 item
                 xs
                 container
-                justify="center"
               >
                 <InputBase
                   className={classes.inputBase}
