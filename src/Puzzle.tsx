@@ -39,7 +39,7 @@ function setNumber(
   y: number,
   value: NumberRange
 ): SudokuGrid {
-  const newGrid = grid;
+  const newGrid = grid.map(row => row.slice()) as SudokuGrid;
   newGrid[x][y] = value;
   return newGrid;
 }
@@ -64,16 +64,14 @@ const Puzzle: React.FC = () => {
 
   function handleClick(x: number, y: number) {
     const input = prompt();
+    console.log(input);
     let number: number;
     if (input) {
       number = parseInt(input);
       if (isValidNumber(number)) {
         const newGrid = setNumber(grid, x, y, number);
-        console.log(grid, x, y, number);
         setGrid(newGrid);
         console.log(grid);
-      } else {
-        console.log("invalid number");
       }
     }
   }
