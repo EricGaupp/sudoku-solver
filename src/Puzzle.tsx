@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { makeStyles, withStyles, Theme } from "@material-ui/core/styles";
-import { Button, Grid, InputBase, Typography } from "@material-ui/core";
+import { makeStyles, Theme } from "@material-ui/core/styles";
+import { Grid, InputBase, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) => ({
-  root: { marginTop: "1em" },
   row: {
     borderLeft: `3px solid ${theme.palette.text.primary}`,
     borderRight: `3px solid ${theme.palette.text.primary}`,
@@ -82,16 +81,6 @@ function isValidNumber(value: number | ""): value is NumberRange {
   return [1, 2, 3, 4, 5, 6, 7, 8, 9, ""].includes(value);
 }
 
-const ColorButton = withStyles((theme: Theme) => ({
-  root: {
-    color: theme.palette.success.contrastText,
-    backgroundColor: theme.palette.success.main,
-    "&:hover": {
-      backgroundColor: theme.palette.success.dark
-    }
-  }
-}))(Button);
-
 const Puzzle: React.FC = () => {
   const classes = useStyles();
   const [grid, setGrid] = useState<SudokuGrid>([
@@ -122,13 +111,7 @@ const Puzzle: React.FC = () => {
   }
 
   return (
-    <Grid
-      className={classes.root}
-      container
-      direction="column"
-      spacing={3}
-      alignItems="center"
-    >
+    <>
       <Grid item container justify="center">
         <Typography variant="h2" align="center">
           Sudoku Solver
@@ -158,7 +141,6 @@ const Puzzle: React.FC = () => {
                   type="number"
                   fullWidth
                   inputProps={{
-                    "aria-label": "naked",
                     min: 1,
                     max: 9,
                     className: classes.removedArrows
@@ -173,11 +155,7 @@ const Puzzle: React.FC = () => {
           </Grid>
         ))}
       </Grid>
-
-      <Grid container justify="center">
-        <ColorButton variant="contained">Solve</ColorButton>
-      </Grid>
-    </Grid>
+    </>
   );
 };
 

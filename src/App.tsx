@@ -3,13 +3,17 @@ import React, { useState } from "react";
 //MaterialUI Components
 import {
   createMuiTheme,
+  makeStyles,
+  Theme,
   ThemeOptions,
   ThemeProvider
 } from "@material-ui/core/styles";
-import { CssBaseline, PaletteType } from "@material-ui/core";
+import { CssBaseline, Grid, PaletteType } from "@material-ui/core";
 
 //Components
 import Puzzle from "./Puzzle";
+import SolveButton from "./SolveButton";
+import Solutions from "./Solutions";
 import SettingsFab from "./SettingsFab";
 
 const defaultTheme: ThemeOptions = {
@@ -37,14 +41,29 @@ const useDarkMode = (): [ThemeOptions, () => void] => {
   return [theme, toggleDarkMode];
 };
 
+const useStyles = makeStyles((theme: Theme) => ({
+  root: { marginTop: "1em" }
+}));
+
 const App: React.FC = () => {
   const [themeOptions, toggleDarkMode] = useDarkMode();
   const theme = createMuiTheme(themeOptions);
+  const classes = useStyles();
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <Puzzle />
+      <Grid
+        className={classes.root}
+        container
+        direction="column"
+        spacing={3}
+        alignItems="center"
+      >
+        <Puzzle />
+        <SolveButton />
+        <Solutions />
+      </Grid>
       <SettingsFab toggleDarkMode={toggleDarkMode} />
     </ThemeProvider>
   );
