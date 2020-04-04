@@ -1,10 +1,13 @@
 import React from "react";
 
+//MobX
+import { useObserver } from "mobx-react-lite";
+import { useStore } from "../index";
+
 //MaterialUI Components
 import {
   createMuiTheme,
   makeStyles,
-  Theme,
   ThemeProvider
 } from "@material-ui/core/styles";
 import { CssBaseline, Grid } from "@material-ui/core";
@@ -16,20 +19,16 @@ import SolveButton from "./SolveButton";
 import Solutions from "./Solutions";
 import SettingsFab from "./SettingsFab";
 
-//Utilities
-import { useDarkMode } from "../utilities/useDarkMode";
-
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles({
   root: { marginTop: "1em" }
-}));
+});
 
 const App: React.FC = () => {
-  const [themeOptions, toggleDarkMode] = useDarkMode();
-  const theme = createMuiTheme(themeOptions);
+  const { uiStore } = useStore();
   const classes = useStyles();
 
-  return (
-    <ThemeProvider theme={theme}>
+  return useObserver(() => (
+    <ThemeProvider theme={createMuiTheme(uiStore.themeOptions)}>
       <CssBaseline />
       <Grid
         className={classes.root}
@@ -43,9 +42,9 @@ const App: React.FC = () => {
         <SolveButton />
         <Solutions />
       </Grid>
-      <SettingsFab toggleDarkMode={toggleDarkMode} />
+      <SettingsFab />
     </ThemeProvider>
-  );
+  ));
 };
 
 export default App;

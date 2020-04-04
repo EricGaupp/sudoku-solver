@@ -1,4 +1,6 @@
 import React from "react";
+import { useObserver } from "mobx-react-lite";
+import { useStore } from "../index";
 
 //MaterialUI Components
 import { Theme, withStyles } from "@material-ui/core/styles";
@@ -15,11 +17,17 @@ const ColorButton = withStyles((theme: Theme) => ({
 }))(Button);
 
 const SolveButton: React.FC = () => {
-  return (
+  const { puzzleStore } = useStore();
+  return useObserver(() => (
     <Grid item container justify="center">
-      <ColorButton variant="contained">Solve</ColorButton>
+      <ColorButton
+        variant="contained"
+        onClick={() => puzzleStore.handleSolveClick()}
+      >
+        {puzzleStore.test}
+      </ColorButton>
     </Grid>
-  );
+  ));
 };
 
 export default SolveButton;

@@ -1,4 +1,5 @@
 import React from "react";
+import { useStore } from "../index";
 
 //MaterialUI Components
 import { makeStyles, Theme, useTheme } from "@material-ui/core/styles";
@@ -8,10 +9,6 @@ import { Fab } from "@material-ui/core";
 import BrightnessHighIcon from "@material-ui/icons/BrightnessHigh";
 import Brightness3Icon from "@material-ui/icons/Brightness3";
 
-interface ISettingsFab {
-  toggleDarkMode: () => void;
-}
-
 const useStyles = makeStyles((theme: Theme) => ({
   fab: {
     position: "absolute",
@@ -20,7 +17,8 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-const SettingsFab: React.FC<ISettingsFab> = ({ toggleDarkMode }) => {
+const SettingsFab: React.FC = () => {
+  const { uiStore } = useStore();
   const classes = useStyles();
   const theme = useTheme();
 
@@ -30,7 +28,7 @@ const SettingsFab: React.FC<ISettingsFab> = ({ toggleDarkMode }) => {
         aria-label="Settings"
         aria-controls="settings-menu"
         className={classes.fab}
-        onClick={() => toggleDarkMode()}
+        onClick={() => uiStore.toggleDarkMode()}
       >
         {theme.palette.type === "dark" ? (
           <BrightnessHighIcon />
