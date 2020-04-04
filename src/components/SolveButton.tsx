@@ -24,7 +24,7 @@ const SolveButton: React.FC = () => {
         variant="contained"
         onClick={() => puzzleStore.handleSolveClick()}
       >
-        {puzzleStore.test}
+        Solve
       </ColorButton>
     </Grid>
   ));

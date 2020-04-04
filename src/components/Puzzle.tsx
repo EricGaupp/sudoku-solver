@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
+
+//MobX
+import { useObserver } from "mobx-react-lite";
+import { useStore } from "../index";
 
 //MaterialUI Components
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { Grid, InputBase } from "@material-ui/core";
 
 //Types
-import { NumberRange, SudokuGrid, SudokuRow } from "../types/SudokuTypes";
+import { NumberRange } from "../types/SudokuTypes";
 
 const useStyles = makeStyles((theme: Theme) => ({
   row: {
@@ -47,34 +51,13 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-function setNumber(
-  grid: SudokuGrid,
-  x: number,
-  y: number,
-  value: NumberRange
-): SudokuGrid {
-  const newGrid = grid.map(row => [...row] as SudokuRow) as SudokuGrid;
-  newGrid[x][y] = value;
-  return newGrid;
-}
-
 function isValidNumber(value: number | ""): value is NumberRange {
   return [1, 2, 3, 4, 5, 6, 7, 8, 9, ""].includes(value);
 }
 
 const Puzzle: React.FC = () => {
+  const { puzzleStore } = useStore();
   const classes = useStyles();
-  const [grid, setGrid] = useState<SudokuGrid>([
-    ["", "", "", "", "", "", "", "", ""],
-    ["", "", "", "", "", "", "", "", ""],
-    ["", "", "", "", "", "", "", "", ""],
-    ["", "", "", "", "", "", "", "", ""],
-    ["", "", "", "", "", "", "", "", ""],
-    ["", "", "", "", "", "", "", "", ""],
-    ["", "", "", "", "", "", "", "", ""],
-    ["", "", "", "", "", "", "", "", ""],
-    ["", "", "", "", "", "", "", "", ""]
-  ]);
 
   function handleChange(x: number, y: number, input: string) {
     let newGridValue: number | "";
@@ -86,14 +69,13 @@ const Puzzle: React.FC = () => {
       return;
     }
     if (isValidNumber(newGridValue)) {
-      const newGrid = setNumber(grid, x, y, newGridValue);
-      setGrid(newGrid);
+      puzzleStore.setNumber(x, y, newGridValue);
     }
   }
 
-  return (
+  return useObserver(() => (
     <Grid item container direction="column" alignItems="center">
-      {grid.map((row, xIndex) => (
+      {puzzleStore.puzzleState.map((row, xIndex) => (
         <Grid
           key={`row${xIndex}`}
           className={classes.row}
@@ -123,14 +105,14 @@ const Puzzle: React.FC = () => {
                 onChange={event =>
                   handleChange(xIndex, yIndex, event.target.value)
                 }
-                value={grid[xIndex][yIndex]}
+                value={puzzleStore.puzzleState[xIndex][yIndex]}
               />
             </Grid>
           ))}
         </Grid>
       ))}
     </Grid>
-  );
+  ));
 };
 
 export default Puzzle;

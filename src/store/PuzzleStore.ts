@@ -1,21 +1,37 @@
 import { action, computed, observable } from "mobx";
 import { RootStore } from "./RootStore";
+import { NumberRange, SudokuGrid } from "../types/SudokuTypes";
 
 export class PuzzleStore {
   rootStore: RootStore;
-  @observable test: string = "hello";
+  @observable puzzleState: SudokuGrid = [
+    ["", "", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", "", ""],
+    ["", "", "", "", "", "", "", "", ""]
+  ];
 
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
   }
 
   @action
+  setNumber(x: number, y: number, value: NumberRange) {
+    this.puzzleState[x][y] = value;
+  }
+
+  @action
   handleSolveClick() {
-    this.test = `${this.test}hello`;
+    console.log(this.puzzleState);
   }
 
   @computed
   get testLength() {
-    return this.test.length;
+    return this.puzzleState.length;
   }
 }
