@@ -2,10 +2,10 @@ import React, { useState } from "react";
 
 //MaterialUI Components
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import { Grid, InputBase, Typography } from "@material-ui/core";
+import { Grid, InputBase } from "@material-ui/core";
 
 //Types
-import { NumberRange, SudokuGrid, SudokuRow } from "./types/SudokuTypes";
+import { NumberRange, SudokuGrid, SudokuRow } from "../types/SudokuTypes";
 
 const useStyles = makeStyles((theme: Theme) => ({
   row: {
@@ -92,51 +92,44 @@ const Puzzle: React.FC = () => {
   }
 
   return (
-    <>
-      <Grid item container justify="center">
-        <Typography variant="h2" align="center">
-          Sudoku Solver
-        </Typography>
-      </Grid>
-      <Grid item container direction="column" alignItems="center">
-        {grid.map((row, xIndex) => (
-          <Grid
-            key={`row${xIndex}`}
-            className={classes.row}
-            item
-            xs={11}
-            md={9}
-            lg={6}
-            container
-          >
-            {row.map((column, yIndex) => (
-              <Grid
-                key={`x${xIndex}y${yIndex}`}
-                className={classes.column}
-                item
-                xs
-                container
-              >
-                <InputBase
-                  className={classes.inputBase}
-                  type="number"
-                  fullWidth
-                  inputProps={{
-                    min: 1,
-                    max: 9,
-                    className: classes.removedArrows
-                  }}
-                  onChange={event =>
-                    handleChange(xIndex, yIndex, event.target.value)
-                  }
-                  value={grid[xIndex][yIndex]}
-                />
-              </Grid>
-            ))}
-          </Grid>
-        ))}
-      </Grid>
-    </>
+    <Grid item container direction="column" alignItems="center">
+      {grid.map((row, xIndex) => (
+        <Grid
+          key={`row${xIndex}`}
+          className={classes.row}
+          item
+          xs={11}
+          md={9}
+          lg={6}
+          container
+        >
+          {row.map((column, yIndex) => (
+            <Grid
+              key={`x${xIndex}y${yIndex}`}
+              className={classes.column}
+              item
+              xs
+              container
+            >
+              <InputBase
+                className={classes.inputBase}
+                type="number"
+                fullWidth
+                inputProps={{
+                  min: 1,
+                  max: 9,
+                  className: classes.removedArrows
+                }}
+                onChange={event =>
+                  handleChange(xIndex, yIndex, event.target.value)
+                }
+                value={grid[xIndex][yIndex]}
+              />
+            </Grid>
+          ))}
+        </Grid>
+      ))}
+    </Grid>
   );
 };
 
