@@ -1,6 +1,11 @@
 import React, { useState } from "react";
+
+//MaterialUI Components
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { Grid, InputBase, Typography } from "@material-ui/core";
+
+//Types
+import { NumberRange, SudokuGrid, SudokuRow } from "./types/SudokuTypes";
 
 const useStyles = makeStyles((theme: Theme) => ({
   row: {
@@ -41,30 +46,6 @@ const useStyles = makeStyles((theme: Theme) => ({
     }
   }
 }));
-
-type NumberRange = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | "";
-type SudokuRow = [
-  NumberRange,
-  NumberRange,
-  NumberRange,
-  NumberRange,
-  NumberRange,
-  NumberRange,
-  NumberRange,
-  NumberRange,
-  NumberRange
-];
-type SudokuGrid = [
-  SudokuRow,
-  SudokuRow,
-  SudokuRow,
-  SudokuRow,
-  SudokuRow,
-  SudokuRow,
-  SudokuRow,
-  SudokuRow,
-  SudokuRow
-];
 
 function setNumber(
   grid: SudokuGrid,
