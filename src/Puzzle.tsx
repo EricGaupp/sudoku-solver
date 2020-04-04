@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { makeStyles, Theme } from "@material-ui/core/styles";
+import { makeStyles, withStyles, Theme } from "@material-ui/core/styles";
 import { Button, Grid, InputBase, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) => ({
@@ -81,6 +81,16 @@ function setNumber(
 function isValidNumber(value: number | ""): value is NumberRange {
   return [1, 2, 3, 4, 5, 6, 7, 8, 9, ""].includes(value);
 }
+
+const ColorButton = withStyles((theme: Theme) => ({
+  root: {
+    color: theme.palette.success.contrastText,
+    backgroundColor: theme.palette.success.main,
+    "&:hover": {
+      backgroundColor: theme.palette.success.dark
+    }
+  }
+}))(Button);
 
 const Puzzle: React.FC = () => {
   const classes = useStyles();
@@ -165,9 +175,7 @@ const Puzzle: React.FC = () => {
       </Grid>
 
       <Grid container justify="center">
-        <Button variant="contained" color="primary">
-          Solve
-        </Button>
+        <ColorButton variant="contained">Solve</ColorButton>
       </Grid>
     </Grid>
   );
