@@ -8,9 +8,6 @@ import { useStore } from "../index";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import { Grid, InputBase } from "@material-ui/core";
 
-//Types
-import { NumberRange } from "../types/SudokuTypes";
-
 const useStyles = makeStyles((theme: Theme) => ({
   row: {
     borderLeft: `3px solid ${theme.palette.text.primary}`,
@@ -51,15 +48,11 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }));
 
-function isValidNumber(value: number | ""): value is NumberRange {
-  return [1, 2, 3, 4, 5, 6, 7, 8, 9, ""].includes(value);
-}
-
 const Puzzle: React.FC = () => {
   const { puzzleStore } = useStore();
   const classes = useStyles();
 
-  function handleChange(x: number, y: number, input: string) {
+  function handleChange(y: number, x: number, input: string) {
     let newGridValue: number | "";
     if (parseInt(input, 10) > 0 && parseInt(input, 10) < 10) {
       newGridValue = parseInt(input, 10);
@@ -68,8 +61,8 @@ const Puzzle: React.FC = () => {
     } else {
       return;
     }
-    if (isValidNumber(newGridValue)) {
-      puzzleStore.setNumber(x, y, newGridValue);
+    if (puzzleStore.isValidNumber(newGridValue)) {
+      puzzleStore.setNumber(y, x, newGridValue);
     }
   }
 

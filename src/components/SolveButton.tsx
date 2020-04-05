@@ -20,10 +20,7 @@ const SolveButton: React.FC = () => {
   const { puzzleStore } = useStore();
   return useObserver(() => (
     <Grid item container justify="center">
-      <ColorButton
-        variant="contained"
-        onClick={() => puzzleStore.handleSolveClick()}
-      >
+      <ColorButton variant="contained" onClick={() => puzzleStore.solve()}>
         Solve
       </ColorButton>
     </Grid>
