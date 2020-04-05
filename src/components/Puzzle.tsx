@@ -75,9 +75,9 @@ const Puzzle: React.FC = () => {
 
   return useObserver(() => (
     <Grid item container direction="column" alignItems="center">
-      {puzzleStore.puzzleState.map((row, xIndex) => (
+      {puzzleStore.puzzleState.map((row, yIndex) => (
         <Grid
-          key={`row${xIndex}`}
+          key={`row${yIndex}`}
           className={classes.row}
           item
           xs={11}
@@ -85,9 +85,9 @@ const Puzzle: React.FC = () => {
           lg={6}
           container
         >
-          {row.map((column, yIndex) => (
+          {row.map((column, xIndex) => (
             <Grid
-              key={`x${xIndex}y${yIndex}`}
+              key={`y${yIndex}x${xIndex}`}
               className={classes.column}
               item
               xs
@@ -103,9 +103,9 @@ const Puzzle: React.FC = () => {
                   className: classes.removedArrows
                 }}
                 onChange={event =>
-                  handleChange(xIndex, yIndex, event.target.value)
+                  handleChange(yIndex, xIndex, event.target.value)
                 }
-                value={puzzleStore.puzzleState[xIndex][yIndex]}
+                value={puzzleStore.puzzleState[yIndex][xIndex]}
               />
             </Grid>
           ))}
