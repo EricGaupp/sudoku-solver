@@ -1,11 +1,11 @@
-import { action, observable } from "mobx";
+import { action, observable, computed } from "mobx";
 import { RootStore } from "./RootStore";
 import { NumberRange, SudokuGrid } from "../types/SudokuTypes";
 
 export class PuzzleStore {
   rootStore: RootStore;
   @observable puzzleState: SudokuGrid;
-  private solved: boolean = false;
+  @observable solutions: SudokuGrid[] = [];
 
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
@@ -16,20 +16,20 @@ export class PuzzleStore {
       ["", "", 4, "", "", "", "", "", ""],
       [5, 1, 7, 2, "", "", 9, "", ""],
       [6, "", 2, "", "", "", 3, 7, ""],
-      [1, "", "", 8, "", 4, "", 2, ""],
-      [7, "", 6, "", "", "", 8, 1, ""],
-      [3, "", "", "", 9, "", "", "", ""]
+      [1, "", "", 8, "", "", "", 2, ""],
+      ["", "", "", "", "", "", 8, 1, ""],
+      ["", "", "", "", "", "", "", "", ""]
     ];
     // this.puzzleState = [
-    //   [8, 9, 5, 7, 4, 2, 1, 3, 6],
-    //   [2, 7, 1, 9, 6, 3, 4, 8, 5],
-    //   [4, 6, "", 5, 8, 1, 7, 9, 2],
-    //   [9, 3, 4, 6, 1, 7, 2, 5, 8],
-    //   [5, 1, 7, 2, 3, 8, 9, 6, 4],
-    //   [6, 8, 2, 4, 5, 9, 3, 7, 1],
-    //   [1, 5, 9, 8, 7, 4, "", 2, 3],
-    //   [7, 4, 6, 3, 2, 5, 8, 1, 9],
-    //   [3, 2, 8, 1, 9, 6, 5, 4, 7]
+    //   ["", 9, "", "", "", "", "", "", 6],
+    //   ["", "", "", 9, 6, "", 4, 8, 5],
+    //   ["", "", "", 5, 8, 1, "", "", ""],
+    //   ["", "", 4, "", "", "", "", "", ""],
+    //   [5, 1, 7, 2, "", "", 9, "", ""],
+    //   [6, "", 2, "", "", "", 3, 7, ""],
+    //   [1, "", "", 8, "", 4, "", 2, ""],
+    //   [7, "", 6, "", "", "", 8, 1, ""],
+    //   [3, "", "", "", 9, "", "", "", ""]
     // ];
     // this.puzzleState = [
     //   ["", "", "", "", "", "", "", "", ""],
@@ -44,8 +44,9 @@ export class PuzzleStore {
     // ];
   }
 
-  isValidNumber(value: number | ""): value is NumberRange {
-    return [1, 2, 3, 4, 5, 6, 7, 8, 9, ""].includes(value);
+  @action
+  setNumber(y: number, x: number, value: NumberRange) {
+    this.puzzleState[y][x] = value;
   }
 
   @action
@@ -54,31 +55,30 @@ export class PuzzleStore {
       for (let x = 0; x < 9; x++) {
         //Look for an empty space
         if (this.puzzleState[y][x] === "") {
-          console.log("empty space");
           //Attempt to find a possible value
           for (let v = 1; v < 10; v++) {
-            console.log(v);
             if (this.checkIfValuePossible(y, x, v)) {
               //If value works set it and resolve
-              console.log(`${v} possible at ${y},${x}`);
               this.setNumber(y, x, v as NumberRange);
-              console.log(JSON.stringify(this.puzzleState));
               this.solve();
-              if (this.solved) break;
-              console.log("unsetting number");
               this.setNumber(y, x, "");
             }
           }
-          console.log("no possible value");
-          return false;
+          return;
         }
       }
     }
-    console.log("solution:");
-    console.log(JSON.stringify(this.puzzleState));
-    alert("solution found");
-    this.solved = true;
-    return true;
+    this.solutions.push(this.puzzleState.map(row => row.slice()) as SudokuGrid);
+    return;
+  }
+
+  @computed
+  get numSolutions() {
+    return this.solutions.length;
+  }
+
+  isValidNumber(value: number | ""): value is NumberRange {
+    return [1, 2, 3, 4, 5, 6, 7, 8, 9, ""].includes(value);
   }
 
   checkIfValuePossible(y: number, x: number, value: number) {
@@ -122,10 +122,5 @@ export class PuzzleStore {
       }
     }
     return true;
-  }
-
-  @action
-  setNumber(y: number, x: number, value: NumberRange) {
-    this.puzzleState[y][x] = value;
   }
 }
