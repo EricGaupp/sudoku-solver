@@ -5,31 +5,32 @@ import { NumberRange, SudokuGrid } from "../types/SudokuTypes";
 export class PuzzleStore {
   rootStore: RootStore;
   @observable puzzleState: SudokuGrid;
+  private solved: boolean = false;
 
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
-    // this.puzzleState = [
-    //   ["", 9, "", "", "", "", "", "", 6],
-    //   ["", "", "", 9, 6, "", 4, 8, 5],
-    //   ["", "", "", 5, 8, 1, "", "", ""],
-    //   ["", "", 4, "", "", "", "", "", ""],
-    //   [5, 1, 7, 2, "", "", 9, "", ""],
-    //   [6, "", 2, "", "", "", 3, 7, ""],
-    //   [1, "", "", 8, "", 4, "", 2, ""],
-    //   [7, "", 6, "", "", "", 8, 1, ""],
-    //   [3, "", "", "", 9, "", "", "", ""]
-    // ];
     this.puzzleState = [
-      [8, 9, 5, 7, 4, 2, 1, 3, 6],
-      [2, 7, 1, 9, 6, 3, 4, 8, 5],
-      [4, 6, "", 5, 8, 1, 7, 9, 2],
-      [9, 3, 4, 6, 1, 7, 2, 5, 8],
-      [5, 1, 7, 2, 3, 8, 9, 6, 4],
-      [6, 8, 2, 4, 5, 9, 3, 7, 1],
-      [1, 5, 9, 8, 7, 4, "", 2, 3],
-      [7, 4, 6, 3, 2, 5, 8, 1, 9],
-      [3, 2, 8, 1, 9, 6, 5, 4, 7]
+      ["", 9, "", "", "", "", "", "", 6],
+      ["", "", "", 9, 6, "", 4, 8, 5],
+      ["", "", "", 5, 8, 1, "", "", ""],
+      ["", "", 4, "", "", "", "", "", ""],
+      [5, 1, 7, 2, "", "", 9, "", ""],
+      [6, "", 2, "", "", "", 3, 7, ""],
+      [1, "", "", 8, "", 4, "", 2, ""],
+      [7, "", 6, "", "", "", 8, 1, ""],
+      [3, "", "", "", 9, "", "", "", ""]
     ];
+    // this.puzzleState = [
+    //   [8, 9, 5, 7, 4, 2, 1, 3, 6],
+    //   [2, 7, 1, 9, 6, 3, 4, 8, 5],
+    //   [4, 6, "", 5, 8, 1, 7, 9, 2],
+    //   [9, 3, 4, 6, 1, 7, 2, 5, 8],
+    //   [5, 1, 7, 2, 3, 8, 9, 6, 4],
+    //   [6, 8, 2, 4, 5, 9, 3, 7, 1],
+    //   [1, 5, 9, 8, 7, 4, "", 2, 3],
+    //   [7, 4, 6, 3, 2, 5, 8, 1, 9],
+    //   [3, 2, 8, 1, 9, 6, 5, 4, 7]
+    // ];
     // this.puzzleState = [
     //   ["", "", "", "", "", "", "", "", ""],
     //   ["", "", "", "", "", "", "", "", ""],
@@ -47,28 +48,37 @@ export class PuzzleStore {
     return [1, 2, 3, 4, 5, 6, 7, 8, 9, ""].includes(value);
   }
 
+  @action
   solve() {
-    console.log(this.puzzleState);
     for (let y = 0; y < 9; y++) {
       for (let x = 0; x < 9; x++) {
+        //Look for an empty space
         if (this.puzzleState[y][x] === "") {
           console.log("empty space");
+          //Attempt to find a possible value
           for (let v = 1; v < 10; v++) {
             console.log(v);
             if (this.checkIfValuePossible(y, x, v)) {
-              console.log(`${v} possible at [${y},${x}]`);
-              // this.setNumber(y, x, v as NumberRange);
-              // this.solve();
-              // this.setNumber(y, x, "");
-              action(() => (this.puzzleState[y][x] = v as NumberRange));
-              console.log(this.puzzleState);
+              //If value works set it and resolve
+              console.log(`${v} possible at ${y},${x}`);
+              this.setNumber(y, x, v as NumberRange);
+              console.log(JSON.stringify(this.puzzleState));
               this.solve();
-              action(() => (this.puzzleState[y][x] = ""));
+              if (this.solved) break;
+              console.log("unsetting number");
+              this.setNumber(y, x, "");
             }
           }
+          console.log("no possible value");
+          return false;
         }
       }
     }
+    console.log("solution:");
+    console.log(JSON.stringify(this.puzzleState));
+    alert("solution found");
+    this.solved = true;
+    return true;
   }
 
   checkIfValuePossible(y: number, x: number, value: number) {
