@@ -18,9 +18,15 @@ const ColorButton = withStyles((theme: Theme) => ({
 
 const SolveButton: React.FC = () => {
   const { puzzleStore } = useStore();
+
+  const handleSolveClick = () => {
+    puzzleStore.clearSolutions();
+    puzzleStore.solve();
+  };
+
   return useObserver(() => (
-    <Grid item container justify="center">
-      <ColorButton variant="contained" onClick={() => puzzleStore.solve()}>
+    <Grid item>
+      <ColorButton variant="contained" onClick={handleSolveClick}>
         Solve
       </ColorButton>
     </Grid>
