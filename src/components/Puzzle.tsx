@@ -39,24 +39,20 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 interface IPuzzleBoard {
   gameState: SudokuGrid;
-  render: (value: NumberRange) => ReactNode;
+  render: (state: IRenderState) => ReactNode;
+}
+
+interface IRenderState {
+  value: NumberRange;
 }
 
 const PuzzleBoard: React.FC<IPuzzleBoard> = ({ gameState, render }) => {
   const classes = useStyles();
 
   return (
-    <Grid item container direction="column" alignItems="center">
+    <Grid container direction="column" alignItems="center">
       {gameState.map((row, yIndex) => (
-        <Grid
-          key={`row${yIndex}`}
-          className={classes.row}
-          item
-          xs={11}
-          md={9}
-          lg={6}
-          container
-        >
+        <Grid key={`row${yIndex}`} className={classes.row} item container>
           {row.map((column, xIndex) => (
             <Grid
               key={`y${yIndex}x${xIndex}`}
@@ -64,8 +60,9 @@ const PuzzleBoard: React.FC<IPuzzleBoard> = ({ gameState, render }) => {
               item
               xs
               container
+              justify="center"
             >
-              {render(gameState[yIndex][xIndex])}
+              {render({ value: gameState[yIndex][xIndex] })}
             </Grid>
           ))}
         </Grid>

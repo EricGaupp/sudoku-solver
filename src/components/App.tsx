@@ -39,10 +39,12 @@ const App: React.FC = () => {
         alignItems="center"
       >
         <Header />
-        <Puzzle
-          gameState={puzzleStore.puzzleState}
-          render={(value) => <PuzzleInput value={value} />}
-        />
+        <Grid item xs={11} md={9} lg={6} container>
+          <Puzzle
+            gameState={puzzleStore.puzzleState}
+            render={({ value }) => <PuzzleInput value={value} />}
+          />
+        </Grid>
         <SolveButton />
         <Solutions />
       </Grid>

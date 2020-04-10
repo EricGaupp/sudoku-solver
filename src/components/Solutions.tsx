@@ -10,8 +10,11 @@ import {
   ExpansionPanelSummary,
   ExpansionPanelDetails,
   Grid,
-  Typography
+  Typography,
 } from "@material-ui/core";
+
+//Components
+import PuzzleBoard from "./Puzzle";
 
 //Icons
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
@@ -32,12 +35,12 @@ const Solutions: React.FC = () => {
         md={9}
         lg={6}
         container
-        alignItems="center"
+        // alignItems="center"
         direction="column"
       >
-        <Grid item>
-          {puzzleStore.solutions.map((solution: SudokuGrid, index: number) => (
-            <ExpansionPanel key={index}>
+        {puzzleStore.solutions.map((solution: SudokuGrid, index: number) => (
+          <Grid item key={index} xs={12}>
+            <ExpansionPanel>
               <ExpansionPanelSummary
                 expandIcon={<ExpandMoreIcon />}
                 aria-controls={`solution${index}`}
@@ -46,15 +49,14 @@ const Solutions: React.FC = () => {
                 <Typography>{`Solution ${index + 1}`}</Typography>
               </ExpansionPanelSummary>
               <ExpansionPanelDetails>
-                <Typography>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-                  eget.
-                </Typography>
+                <PuzzleBoard
+                  gameState={solution}
+                  render={({ value }) => <Typography>{value}</Typography>}
+                />
               </ExpansionPanelDetails>
             </ExpansionPanel>
-          ))}
-        </Grid>
+          </Grid>
+        ))}
       </Grid>
     </>
   ));
