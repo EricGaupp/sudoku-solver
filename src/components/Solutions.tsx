@@ -51,7 +51,9 @@ const Solutions: React.FC = () => {
               <ExpansionPanelDetails>
                 <PuzzleBoard
                   gameState={solution}
-                  render={({ value }) => <Typography>{value}</Typography>}
+                  render={({ value }) => (
+                    <Typography variant="h4">{value}</Typography>
+                  )}
                 />
               </ExpansionPanelDetails>
             </ExpansionPanel>
