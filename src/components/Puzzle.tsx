@@ -1,74 +1,53 @@
-import React from "react";
-
-//MobX
-import { useObserver } from "mobx-react-lite";
-import { useStore } from "../index";
+import React, { ReactNode } from "react";
 
 //MaterialUI Components
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import { Grid, InputBase } from "@material-ui/core";
+import { Grid } from "@material-ui/core";
+
+//Types
+import { NumberRange, SudokuGrid } from "../types/SudokuTypes";
 
 const useStyles = makeStyles((theme: Theme) => ({
   row: {
     borderLeft: `3px solid ${theme.palette.text.primary}`,
     borderRight: `3px solid ${theme.palette.text.primary}`,
     "&:nth-child(n)": {
-      borderTop: `1px solid ${theme.palette.text.primary}`
+      borderTop: `1px solid ${theme.palette.text.primary}`,
     },
     "&:nth-child(3n-2)": {
-      borderTop: `3px solid ${theme.palette.text.primary}`
+      borderTop: `3px solid ${theme.palette.text.primary}`,
     },
     "&:last-child": {
-      borderBottom: `3px solid ${theme.palette.text.primary}`
-    }
+      borderBottom: `3px solid ${theme.palette.text.primary}`,
+    },
   },
   column: {
     "&:first-child": {
-      borderLeft: "none"
+      borderLeft: "none",
     },
     "&:nth-child(n+2)": {
-      borderLeft: `1px solid ${theme.palette.text.primary}`
+      borderLeft: `1px solid ${theme.palette.text.primary}`,
     },
     "&:nth-child(3n)": {
-      borderRight: `3px solid ${theme.palette.text.primary}`
+      borderRight: `3px solid ${theme.palette.text.primary}`,
     },
     "&:last-child": {
-      borderRight: "none"
-    }
+      borderRight: "none",
+    },
   },
-  inputBase: {
-    margin: theme.spacing(1)
-  },
-  removedArrows: {
-    textAlign: "center",
-    "&::-webkit-inner-spin-button, input::-webkit-outer-spin-button": {
-      WebkitAppearance: "none",
-      margin: 0
-    }
-  }
 }));
 
-const Puzzle: React.FC = () => {
-  const { puzzleStore } = useStore();
+interface IPuzzleBoard {
+  gameState: SudokuGrid;
+  render: (value: NumberRange) => ReactNode;
+}
+
+const PuzzleBoard: React.FC<IPuzzleBoard> = ({ gameState, render }) => {
   const classes = useStyles();
 
-  function handleChange(y: number, x: number, input: string) {
-    let newGridValue: number | "";
-    if (parseInt(input, 10) > 0 && parseInt(input, 10) < 10) {
-      newGridValue = parseInt(input, 10);
-    } else if (input === "") {
-      newGridValue = "";
-    } else {
-      return;
-    }
-    if (puzzleStore.isValidNumber(newGridValue)) {
-      puzzleStore.setNumber(y, x, newGridValue);
-    }
-  }
-
-  return useObserver(() => (
+  return (
     <Grid item container direction="column" alignItems="center">
-      {puzzleStore.puzzleState.map((row, yIndex) => (
+      {gameState.map((row, yIndex) => (
         <Grid
           key={`row${yIndex}`}
           className={classes.row}
@@ -86,26 +65,13 @@ const Puzzle: React.FC = () => {
               xs
               container
             >
-              <InputBase
-                className={classes.inputBase}
-                type="number"
-                fullWidth
-                inputProps={{
-                  min: 1,
-                  max: 9,
-                  className: classes.removedArrows
-                }}
-                onChange={event =>
-                  handleChange(yIndex, xIndex, event.target.value)
-                }
-                value={puzzleStore.puzzleState[yIndex][xIndex]}
-              />
+              {render(gameState[yIndex][xIndex])}
             </Grid>
           ))}
         </Grid>
       ))}
     </Grid>
-  ));
+  );
 };
 
-export default Puzzle;
+export default PuzzleBoard;

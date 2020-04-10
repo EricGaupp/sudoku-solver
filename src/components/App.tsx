@@ -8,23 +8,24 @@ import { useStore } from "../index";
 import {
   createMuiTheme,
   makeStyles,
-  ThemeProvider
+  ThemeProvider,
 } from "@material-ui/core/styles";
 import { CssBaseline, Grid } from "@material-ui/core";
 
 //Components
 import Header from "./Header";
 import Puzzle from "./Puzzle";
+import PuzzleInput from "./PuzzleInput";
 import SolveButton from "./SolveButton";
 import Solutions from "./Solutions";
 import SettingsFab from "./SettingsFab";
 
 const useStyles = makeStyles({
-  root: { marginTop: "1em" }
+  root: { marginTop: "1em" },
 });
 
 const App: React.FC = () => {
-  const { uiStore } = useStore();
+  const { puzzleStore, uiStore } = useStore();
   const classes = useStyles();
 
   return useObserver(() => (
@@ -38,7 +39,10 @@ const App: React.FC = () => {
         alignItems="center"
       >
         <Header />
-        <Puzzle />
+        <Puzzle
+          gameState={puzzleStore.puzzleState}
+          render={(value) => <PuzzleInput value={value} />}
+        />
         <SolveButton />
         <Solutions />
       </Grid>
