@@ -6,6 +6,7 @@ import { Grid } from "@material-ui/core";
 
 //Types
 import { NumberRange, SudokuGrid } from "../types/SudokuTypes";
+import { useObserver } from "mobx-react-lite";
 
 const useStyles = makeStyles((theme: Theme) => ({
   row: {
@@ -51,7 +52,7 @@ interface IRenderState {
 const PuzzleBoard: React.FC<IPuzzleBoard> = ({ gameState, render }) => {
   const classes = useStyles();
 
-  return (
+  return useObserver(() => (
     <Grid item xs container direction="column" alignItems="center">
       {gameState.map((row, yIndex) => (
         <Grid key={`row${yIndex}`} className={classes.row} item container>
@@ -74,7 +75,7 @@ const PuzzleBoard: React.FC<IPuzzleBoard> = ({ gameState, render }) => {
         </Grid>
       ))}
     </Grid>
-  );
+  ));
 };
 
 export default PuzzleBoard;

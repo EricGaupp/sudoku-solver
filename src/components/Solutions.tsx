@@ -24,6 +24,7 @@ import { SudokuGrid } from "../types/SudokuTypes";
 
 const Solutions: React.FC = () => {
   const { puzzleStore } = useStore();
+
   return useObserver(() => (
     <>
       {puzzleStore.solutions.map((solution: SudokuGrid, index: number) => (
