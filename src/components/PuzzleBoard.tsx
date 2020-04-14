@@ -44,13 +44,15 @@ interface IPuzzleBoard {
 
 interface IRenderState {
   value: NumberRange;
+  y: number;
+  x: number;
 }
 
 const PuzzleBoard: React.FC<IPuzzleBoard> = ({ gameState, render }) => {
   const classes = useStyles();
 
   return (
-    <Grid container direction="column" alignItems="center">
+    <Grid item xs container direction="column" alignItems="center">
       {gameState.map((row, yIndex) => (
         <Grid key={`row${yIndex}`} className={classes.row} item container>
           {row.map((column, xIndex) => (
@@ -62,7 +64,11 @@ const PuzzleBoard: React.FC<IPuzzleBoard> = ({ gameState, render }) => {
               container
               justify="center"
             >
-              {render({ value: gameState[yIndex][xIndex] })}
+              {render({
+                value: gameState[yIndex][xIndex],
+                y: yIndex,
+                x: xIndex,
+              })}
             </Grid>
           ))}
         </Grid>

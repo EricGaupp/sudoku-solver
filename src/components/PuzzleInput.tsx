@@ -22,25 +22,28 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 interface IPuzzleInput {
   value: NumberRange;
-  //   onChange: () => void;
+  x: number;
+  y: number;
+  handleChange: (y: number, x: number, value: number | "") => void;
 }
 
-const PuzzleInput: React.FC<IPuzzleInput> = ({ value }) => {
+const PuzzleInput: React.FC<IPuzzleInput> = ({ value, x, y, handleChange }) => {
   const classes = useStyles();
 
-  //   function handleChange(y: number, x: number, input: string) {
-  //     let newGridValue: number | "";
-  //     if (parseInt(input, 10) > 0 && parseInt(input, 10) < 10) {
-  //       newGridValue = parseInt(input, 10);
-  //     } else if (input === "") {
-  //       newGridValue = "";
-  //     } else {
-  //       return;
-  //     }
-  //     if (puzzleStore.isValidNumber(newGridValue)) {
-  //       puzzleStore.setNumber(y, x, newGridValue);
-  //     }
-  //   }
+  function handleInputChange(input: string) {
+    let newGridValue: number | "";
+    if (parseInt(input, 10) > 0 && parseInt(input, 10) < 10) {
+      newGridValue = parseInt(input, 10);
+    } else if (input === "") {
+      newGridValue = "";
+    } else {
+      return;
+    }
+    // if (puzzleStore.isValidNumber(newGridValue)) {
+    //   puzzleStore.setNumber(y, x, newGridValue);
+    // }
+    handleChange(y, x, newGridValue);
+  }
 
   return (
     <InputBase
@@ -52,8 +55,7 @@ const PuzzleInput: React.FC<IPuzzleInput> = ({ value }) => {
         max: 9,
         className: classes.removedArrows,
       }}
-      //   onChange={(event) => handleChange(yIndex, xIndex, event.target.value)}
-      // value={puzzleStore.puzzleState[yIndex][xIndex]}
+      onChange={(event) => handleInputChange(event.target.value)}
       value={value}
     />
   );

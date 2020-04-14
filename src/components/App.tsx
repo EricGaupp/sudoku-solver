@@ -10,11 +10,11 @@ import {
   makeStyles,
   ThemeProvider,
 } from "@material-ui/core/styles";
-import { CssBaseline, Grid } from "@material-ui/core";
+import { CssBaseline, Grid, Typography } from "@material-ui/core";
 
 //Components
 import Header from "./Header";
-import Puzzle from "./Puzzle";
+import PuzzleBoard from "./PuzzleBoard";
 import PuzzleInput from "./PuzzleInput";
 import SolveButton from "./SolveButton";
 import Solutions from "./Solutions";
@@ -38,15 +38,33 @@ const App: React.FC = () => {
         spacing={3}
         alignItems="center"
       >
-        <Header />
+        <Grid item container justify="center">
+          <Header />
+        </Grid>
         <Grid item xs={11} md={9} lg={6} container>
-          <Puzzle
+          <PuzzleBoard
             gameState={puzzleStore.puzzleState}
-            render={({ value }) => <PuzzleInput value={value} />}
+            render={({ value, x, y }) => (
+              <PuzzleInput
+                value={value}
+                handleChange={puzzleStore.handleInputChange}
+                x={x}
+                y={y}
+              />
+            )}
           />
         </Grid>
-        <SolveButton />
-        <Solutions />
+        <Grid item>
+          <SolveButton />
+        </Grid>
+        <Grid item>
+          <Typography variant="subtitle1">{`Number of Solutions: ${puzzleStore.numSolutions}`}</Typography>
+        </Grid>
+        {puzzleStore.solutions.length > 0 && (
+          <Grid item xs={11} md={9} lg={6} container direction="column">
+            <Solutions />
+          </Grid>
+        )}
       </Grid>
       <SettingsFab />
     </ThemeProvider>
