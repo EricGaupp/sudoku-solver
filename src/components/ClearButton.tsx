@@ -3,7 +3,7 @@ import { useObserver } from "mobx-react-lite";
 import { useStore } from "../storeSetup";
 
 //MaterialUI Components
-import { Button } from "@material-ui/core";
+import { Button, Zoom } from "@material-ui/core";
 
 const ClearButton: React.FC = () => {
   const { puzzleStore } = useStore();
@@ -13,9 +13,12 @@ const ClearButton: React.FC = () => {
   };
 
   return useObserver(() => (
-    <Button variant="outlined" onClick={handleClick}>
-      Clear
-    </Button>
+    //Wrap in Zoom tied to puzzleStore.clearEnabled
+    <Zoom in={puzzleStore.clearPuzzleEnabled}>
+      <Button variant="outlined" onClick={handleClick}>
+        Clear
+      </Button>
+    </Zoom>
   ));
 };
 
