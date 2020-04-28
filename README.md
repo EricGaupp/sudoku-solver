@@ -4,14 +4,14 @@ A basic Sudoku Solver that uses a recursive backtracking algorithm to solve puzz
 
 Demo can be found at https://ericgaupp.github.io/sudoku-solver
 
-###Technologies
+### Technologies
 
 - TypeScript
 - React
 - MobX
 - Material-UI
 
-###Features in Progress
+### Features in Progress
 
 - [x] Toggleable Dark Theme
 - [] Clear button
