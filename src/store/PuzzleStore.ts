@@ -9,15 +9,26 @@ export class PuzzleStore {
 
   constructor(rootStore: RootStore) {
     this.rootStore = rootStore;
+    // this.puzzleState = [
+    //   ["", "", "", "", "", "", "", "", ""],
+    //   ["", "", "", "", "", "", "", "", ""],
+    //   ["", "", "", "", "", "", "", "", ""],
+    //   ["", "", "", "", "", "", "", "", ""],
+    //   ["", "", "", "", "", "", "", "", ""],
+    //   ["", "", "", "", "", "", "", "", ""],
+    //   ["", "", "", "", "", "", "", "", ""],
+    //   ["", "", "", "", "", "", "", "", ""],
+    //   ["", "", "", "", "", "", "", "", ""],
+    // ];
     this.puzzleState = [
-      ["", "", "", "", "", "", "", "", ""],
-      ["", "", "", "", "", "", "", "", ""],
-      ["", "", "", "", "", "", "", "", ""],
-      ["", "", "", "", "", "", "", "", ""],
-      ["", "", "", "", "", "", "", "", ""],
-      ["", "", "", "", "", "", "", "", ""],
-      ["", "", "", "", "", "", "", "", ""],
-      ["", "", "", "", "", "", "", "", ""],
+      ["", 9, "", "", "", "", "", "", 6],
+      ["", "", "", 9, 6, "", 4, 8, 5],
+      ["", "", "", 5, 8, 1, "", "", ""],
+      ["", "", 4, "", "", "", "", "", ""],
+      [5, 1, 7, 2, "", "", 9, "", ""],
+      [6, "", 2, "", "", "", 3, 7, ""],
+      [1, "", "", 8, "", 4, "", 2, ""],
+      ["", "", "", "", "", "", 8, 1, ""],
       ["", "", "", "", "", "", "", "", ""],
     ];
   }
@@ -65,6 +76,15 @@ export class PuzzleStore {
   isValidNumber(value: number | ""): value is NumberRange {
     return [1, 2, 3, 4, 5, 6, 7, 8, 9, ""].includes(value);
   }
+
+  handleInputChange = (y: number, x: number, value: number | "") => {
+    console.log(y, x, value);
+    console.log(this);
+    if (this.isValidNumber(value)) {
+      console.log("valid");
+      this.setNumber(y, x, value);
+    }
+  };
 
   checkIfValuePossible(y: number, x: number, value: number) {
     const rowPossible = this.checkRowForValue(y, value);

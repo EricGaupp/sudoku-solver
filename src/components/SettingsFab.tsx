@@ -3,7 +3,7 @@ import { useStore } from "../index";
 
 //MaterialUI Components
 import { makeStyles, Theme, useTheme } from "@material-ui/core/styles";
-import { Fab } from "@material-ui/core";
+import { Fab, useScrollTrigger, Zoom } from "@material-ui/core";
 
 //Material Icons
 import BrightnessHighIcon from "@material-ui/icons/BrightnessHigh";
@@ -21,9 +21,10 @@ const SettingsFab: React.FC = () => {
   const { uiStore } = useStore();
   const classes = useStyles();
   const theme = useTheme();
+  const trigger = useScrollTrigger({ disableHysteresis: true, threshold: 20 });
 
   return (
-    <>
+    <Zoom in={!trigger}>
       <Fab
         aria-label="Settings"
         aria-controls="settings-menu"
@@ -36,7 +37,7 @@ const SettingsFab: React.FC = () => {
           <Brightness3Icon />
         )}
       </Fab>
-    </>
+    </Zoom>
   );
 };
 

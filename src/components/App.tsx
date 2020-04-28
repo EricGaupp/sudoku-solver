@@ -8,23 +8,24 @@ import { useStore } from "../index";
 import {
   createMuiTheme,
   makeStyles,
-  ThemeProvider
+  ThemeProvider,
 } from "@material-ui/core/styles";
-import { CssBaseline, Grid } from "@material-ui/core";
+import { CssBaseline, Grid, Typography } from "@material-ui/core";
 
 //Components
 import Header from "./Header";
-import Puzzle from "./Puzzle";
+import PuzzleBoard from "./PuzzleBoard";
+import PuzzleInput from "./PuzzleInput";
 import SolveButton from "./SolveButton";
 import Solutions from "./Solutions";
 import SettingsFab from "./SettingsFab";
 
 const useStyles = makeStyles({
-  root: { marginTop: "1em" }
+  root: { marginTop: "1em" },
 });
 
 const App: React.FC = () => {
-  const { uiStore } = useStore();
+  const { puzzleStore, uiStore } = useStore();
   const classes = useStyles();
 
   return useObserver(() => (
@@ -37,10 +38,33 @@ const App: React.FC = () => {
         spacing={3}
         alignItems="center"
       >
-        <Header />
-        <Puzzle />
-        <SolveButton />
-        <Solutions />
+        <Grid item container justify="center">
+          <Header />
+        </Grid>
+        <Grid item xs={11} md={9} lg={6} container>
+          <PuzzleBoard
+            gameState={puzzleStore.puzzleState}
+            render={({ value, x, y }) => (
+              <PuzzleInput
+                value={value}
+                handleChange={puzzleStore.handleInputChange}
+                x={x}
+                y={y}
+              />
+            )}
+          />
+        </Grid>
+        <Grid item>
+          <SolveButton />
+        </Grid>
+        <Grid item>
+          <Typography variant="subtitle1">{`Number of Solutions: ${puzzleStore.numSolutions}`}</Typography>
+        </Grid>
+        {puzzleStore.solutions.length > 0 && (
+          <Grid item xs={11} md={9} lg={6} container direction="column">
+            <Solutions />
+          </Grid>
+        )}
       </Grid>
       <SettingsFab />
     </ThemeProvider>
