@@ -106,10 +106,7 @@ export class PuzzleStore {
   }
 
   handleInputChange = (y: number, x: number, value: number | "") => {
-    console.log(y, x, value);
-    console.log(this);
     if (this.isValidNumber(value)) {
-      console.log("valid");
       this.setNumber(y, x, value);
     }
   };
