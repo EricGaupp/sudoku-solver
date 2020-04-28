@@ -1,18 +1,15 @@
-import React, { createContext, useContext } from "react";
+import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
+import { StoreProvider } from "./storeSetup";
 import App from "./components/App";
 import * as serviceWorker from "./serviceWorker";
-import { RootStore } from "./store/RootStore";
-
-const StoreContext = createContext<RootStore>({} as RootStore);
-export const useStore = (): RootStore => useContext(StoreContext);
 
 ReactDOM.render(
   <React.StrictMode>
-    <StoreContext.Provider value={new RootStore()}>
+    <StoreProvider>
       <App />
-    </StoreContext.Provider>
+    </StoreProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

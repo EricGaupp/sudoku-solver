@@ -1,5 +1,5 @@
 import React from "react";
-import { useStore } from "../index";
+import { useStore } from "../storeSetup";
 
 //MaterialUI Components
 import { makeStyles, Theme, useTheme } from "@material-ui/core/styles";

@@ -1,6 +1,6 @@
 import React from "react";
 import { useObserver } from "mobx-react-lite";
-import { useStore } from "../index";
+import { useStore } from "../storeSetup";
 
 //MaterialUI Components
 import { Theme, withStyles } from "@material-ui/core/styles";

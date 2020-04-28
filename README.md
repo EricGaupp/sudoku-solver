@@ -1,6 +1,6 @@
 # Sudoku Solver
 
-A basic Sudoku Solver that uses a recursive backtracking algorithm to solve puzzles.
+A basic Sudoku Solver that uses a recursive backtracking algorithm to find all possible solutions.
 
 Demo can be found at https://ericgaupp.github.io/sudoku-solver
 

@@ -2,18 +2,18 @@ import { PuzzleStore } from "./PuzzleStore";
 import { RootStore } from "./RootStore";
 import { SudokuGrid } from "../types/SudokuTypes";
 
-describe("Store initialization", () => {
-  it("Initializes a blank puzzle", () => {
-    const puzzleStore = new PuzzleStore(new RootStore());
-    expect(puzzleStore.puzzleState.length).toBe(9);
-    for (let i = 0; i < 9; i++) {
-      expect(puzzleStore.puzzleState[i].length).toBe(9);
-      for (let j = 0; j < 9; j++) {
-        expect(puzzleStore.puzzleState[i][j]).toBe("");
-      }
-    }
-  });
-});
+// describe("Store initialization", () => {
+//   it("Initializes a blank puzzle", () => {
+//     const puzzleStore = new PuzzleStore(new RootStore());
+//     expect(puzzleStore.puzzleState.length).toBe(9);
+//     for (let i = 0; i < 9; i++) {
+//       expect(puzzleStore.puzzleState[i].length).toBe(9);
+//       for (let j = 0; j < 9; j++) {
+//         expect(puzzleStore.puzzleState[i][j]).toBe("");
+//       }
+//     }
+//   });
+// });
 
 describe("Algorithm for Solving Puzzle", () => {
   it("Should check that each value in the row does not equal the input", () => {
@@ -27,7 +27,7 @@ describe("Algorithm for Solving Puzzle", () => {
       [6, "", 2, "", "", "", 3, 7, ""],
       [1, "", "", 8, "", 4, "", 2, ""],
       [7, "", 6, "", "", "", 8, 1, ""],
-      [3, "", "", "", 9, "", "", "", ""]
+      [3, "", "", "", 9, "", "", "", ""],
     ];
     expect(puzzleStore.checkRowForValue(1, 1)).toBe(true);
     expect(puzzleStore.checkRowForValue(1, 2)).toBe(true);
@@ -46,7 +46,7 @@ describe("Algorithm for Solving Puzzle", () => {
       [6, "", 2, "", "", "", 3, 7, ""],
       [1, "", "", 8, "", 4, "", 2, ""],
       [7, "", 6, "", "", "", 8, 1, ""],
-      [3, "", "", "", 9, "", "", "", ""]
+      [3, "", "", "", 9, "", "", "", ""],
     ];
     expect(puzzleStore.checkColumnForValue(0, 1)).toBe(false);
     expect(puzzleStore.checkColumnForValue(0, 3)).toBe(false);
@@ -65,7 +65,7 @@ describe("Algorithm for Solving Puzzle", () => {
       [6, "", 2, "", "", "", 3, 7, ""],
       [1, "", "", 8, "", 4, "", 2, ""],
       [7, "", 6, "", "", "", 8, 1, ""],
-      [3, "", "", "", 9, "", "", "", ""]
+      [3, "", "", "", 9, "", "", "", ""],
     ];
     expect(puzzleStore.checkSubSquareForValue(0, 1, 1)).toBe(true);
     expect(puzzleStore.checkSubSquareForValue(0, 1, 9)).toBe(false);
@@ -84,7 +84,7 @@ describe("Algorithm for Solving Puzzle", () => {
       [6, "", 2, "", "", "", 3, 7, ""],
       [1, "", "", 8, "", 4, "", 2, ""],
       [7, "", 6, "", "", "", 8, 1, ""],
-      [3, "", "", "", 9, "", "", "", ""]
+      [3, "", "", "", 9, "", "", "", ""],
     ];
 
     expect(puzzleStore.checkIfValuePossible(0, 0, 9)).toBe(false);
@@ -104,7 +104,7 @@ describe("Algorithm for Solving Puzzle", () => {
       [6, "", 2, "", "", "", 3, 7, ""],
       [1, "", "", 8, "", 4, "", 2, ""],
       [7, "", 6, "", "", "", 8, 1, ""],
-      [3, "", "", "", 9, "", "", "", ""]
+      [3, "", "", "", 9, "", "", "", ""],
     ];
 
     const puzzleSolution: SudokuGrid = [
@@ -116,10 +116,10 @@ describe("Algorithm for Solving Puzzle", () => {
       [6, 8, 2, 4, 5, 9, 3, 7, 1],
       [1, 5, 9, 8, 7, 4, 6, 2, 3],
       [7, 4, 6, 3, 2, 5, 8, 1, 9],
-      [3, 2, 8, 1, 9, 6, 5, 4, 7]
+      [3, 2, 8, 1, 9, 6, 5, 4, 7],
     ];
 
     puzzleStore.solve();
-    expect(puzzleStore.solutions).toContain(puzzleSolution);
+    expect(puzzleStore.solutions).toContainEqual(puzzleSolution);
   });
 });

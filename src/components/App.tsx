@@ -2,7 +2,7 @@ import React from "react";
 
 //MobX
 import { useObserver } from "mobx-react-lite";
-import { useStore } from "../index";
+import { useStore } from "../storeSetup";
 
 //MaterialUI Components
 import {
@@ -17,6 +17,7 @@ import Header from "./Header";
 import PuzzleBoard from "./PuzzleBoard";
 import PuzzleInput from "./PuzzleInput";
 import SolveButton from "./SolveButton";
+import ClearButton from "./ClearButton";
 import Solutions from "./Solutions";
 import SettingsFab from "./SettingsFab";
 
@@ -56,6 +57,9 @@ const App: React.FC = () => {
         </Grid>
         <Grid item>
           <SolveButton />
+        </Grid>
+        <Grid item>
+          <ClearButton />
         </Grid>
         <Grid item>
           <Typography variant="subtitle1">{`Number of Solutions: ${puzzleStore.numSolutions}`}</Typography>
