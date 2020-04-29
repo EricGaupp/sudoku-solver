@@ -5,20 +5,38 @@ import App from "./App";
 import ClearButton from "./ClearButton";
 
 describe("Clear Button", () => {
-  it("Renders the clear button", () => {
-    const { getByText } = render(<ClearButton />);
-    const clearButton = getByText("Clear");
-    expect(clearButton).toBeInTheDocument();
-  });
-
-  it("Clears the puzzle onClick", () => {
-    const { getByText, getAllByDisplayValue } = render(
+  it("Doesn't render when the puzzle is blank", () => {
+    const { queryByText } = render(
       <StoreProvider>
         <App />
       </StoreProvider>
     );
+    const clearButton = queryByText("Clear");
+    expect(clearButton).not.toBeInTheDocument();
+  });
+
+  it("Renders the clear button when there is at least one value in the puzzle", () => {
+    const { queryByText, getByTestId } = render(
+      <StoreProvider>
+        <App />
+      </StoreProvider>
+    );
+    const input = getByTestId("row3-col4-input");
+    fireEvent.change(input, { target: { value: 3 } });
+    const clearButton = queryByText("Clear");
+    expect(clearButton).toBeInTheDocument();
+  });
+
+  it("Clears the puzzle onClick", () => {
+    const { getByTestId, getByText, getAllByDisplayValue } = render(
+      <StoreProvider>
+        <App />
+      </StoreProvider>
+    );
+    const input = getByTestId("row3-col4-input");
+    fireEvent.change(input, { target: { value: 3 } });
     const clearButton = getByText("Clear");
     fireEvent.click(clearButton);
-    expect(screen.getAllByDisplayValue("", { exact: true })).toHaveLength(81);
+    expect(getAllByDisplayValue("", { exact: true })).toHaveLength(81);
   });
 });

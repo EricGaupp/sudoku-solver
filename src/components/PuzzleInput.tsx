@@ -54,6 +54,7 @@ const PuzzleInput: React.FC<IPuzzleInput> = ({ value, x, y, handleChange }) => {
         min: 1,
         max: 9,
         className: classes.removedArrows,
+        "data-testid": `row${y}-col${x}-input`,
       }}
       onChange={(event) => handleInputChange(event.target.value)}
       value={value}
