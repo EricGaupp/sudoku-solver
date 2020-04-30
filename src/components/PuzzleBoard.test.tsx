@@ -1,7 +1,5 @@
 import React from "react";
 import { fireEvent, render } from "@testing-library/react";
-import PuzzleBoard from "./PuzzleBoard";
-import PuzzleInput from "./PuzzleInput";
 import App from "./App";
 import { StoreProvider } from "../storeSetup";
 import { SudokuGrid } from "../types/SudokuTypes";
@@ -36,12 +34,12 @@ describe("PuzzleBoard", () => {
         <App />
       </StoreProvider>
     );
-    const gridA = getByTestId("row4-column0-grid");
-    const gridB = getByTestId("row4-column8-grid");
-    const inputA = getByTestId("row4-column0-input");
-    const inputB = getByTestId("row4-column8-input");
-    expect(gridA).toHaveStyle(`background-color: #fafafa`);
-    expect(gridB).toBeInTheDocument();
+    const gridA = getByTestId("row0-column0-grid");
+    const gridB = getByTestId("row0-column2-grid");
+    const inputA = getByTestId("row0-column0-input");
+    const inputB = getByTestId("row0-column2-input");
+    expect(gridA).toHaveStyle({ backgroundColor: "#fafafa" }); //Needs to get the vaue from theme.palette.background.default
+    expect(gridB).toHaveStyle({ backgroundColor: "#fafafa" }); //Needs to get the value from theme.palette.background.default
     expect(inputA).toBeInTheDocument();
     expect(inputB).toBeInTheDocument();
     fireEvent.change(inputA, { target: { value: 3 } });
