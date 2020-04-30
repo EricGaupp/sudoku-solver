@@ -13,7 +13,6 @@ const ClearButton: React.FC = () => {
   };
 
   return useObserver(() => (
-    //Wrap in Zoom tied to puzzleStore.clearEnabled
     <Zoom in={puzzleStore.clearPuzzleEnabled}>
       <Button variant="outlined" onClick={handleClick}>
         Clear

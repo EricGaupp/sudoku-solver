@@ -5,5 +5,6 @@ import Header from "./Header";
 it("Renders the Header", () => {
   const { getByText } = render(<Header />);
   const headerElement = getByText("Sudoku Solver");
+  expect(headerElement).toBeInTheDocument();
   expect(headerElement).toHaveTextContent("Sudoku Solver");
 });

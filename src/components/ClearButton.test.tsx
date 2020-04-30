@@ -1,18 +1,17 @@
 import React from "react";
-import { fireEvent, render, screen } from "@testing-library/react";
+import { fireEvent, render } from "@testing-library/react";
 import { StoreProvider } from "../storeSetup";
 import App from "./App";
-import ClearButton from "./ClearButton";
 
 describe("Clear Button", () => {
   it("Doesn't render when the puzzle is blank", () => {
-    const { queryByText } = render(
+    const { debug, queryByText } = render(
       <StoreProvider>
         <App />
       </StoreProvider>
     );
     const clearButton = queryByText("Clear");
-    expect(clearButton).not.toBeInTheDocument();
+    expect(clearButton).not.toBeVisible();
   });
 
   it("Renders the clear button when there is at least one value in the puzzle", () => {

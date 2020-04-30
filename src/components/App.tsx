@@ -58,11 +58,9 @@ const App: React.FC = () => {
         <Grid item>
           <SolveButton />
         </Grid>
-        {puzzleStore.clearPuzzleEnabled && (
-          <Grid item>
-            <ClearButton />
-          </Grid>
-        )}
+        <Grid item>
+          <ClearButton />
+        </Grid>
         <Grid item>
           <Typography variant="subtitle1">{`Number of Solutions: ${puzzleStore.numSolutions}`}</Typography>
         </Grid>

@@ -26,8 +26,7 @@ const SettingsFab: React.FC = () => {
   return (
     <Zoom in={!trigger}>
       <Fab
-        aria-label="Settings"
-        aria-controls="settings-menu"
+        aria-label="Toggle DarkMode"
         className={classes.fab}
         onClick={() => uiStore.toggleDarkMode()}
       >
