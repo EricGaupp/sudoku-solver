@@ -5,7 +5,7 @@ import App from "./App";
 
 describe("Clear Button", () => {
   it("Doesn't render when the puzzle is blank", () => {
-    const { debug, queryByText } = render(
+    const { queryByText } = render(
       <StoreProvider>
         <App />
       </StoreProvider>
@@ -20,7 +20,7 @@ describe("Clear Button", () => {
         <App />
       </StoreProvider>
     );
-    const input = getByTestId("row3-col4-input");
+    const input = getByTestId("row3-column4-input");
     fireEvent.change(input, { target: { value: 3 } });
     const clearButton = queryByText("Clear");
     expect(clearButton).toBeInTheDocument();
@@ -32,7 +32,7 @@ describe("Clear Button", () => {
         <App />
       </StoreProvider>
     );
-    const input = getByTestId("row3-col4-input");
+    const input = getByTestId("row3-column4-input");
     fireEvent.change(input, { target: { value: 3 } });
     const clearButton = getByText("Clear");
     fireEvent.click(clearButton);

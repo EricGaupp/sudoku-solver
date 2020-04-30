@@ -64,6 +64,7 @@ const PuzzleBoard: React.FC<IPuzzleBoard> = ({ gameState, render }) => {
               xs
               container
               justify="center"
+              data-testid={`row${yIndex}-column${xIndex}-grid`}
             >
               {render({
                 value: gameState[yIndex][xIndex],
