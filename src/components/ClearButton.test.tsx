@@ -1,6 +1,6 @@
 import React from "react";
 import { fireEvent, render } from "@testing-library/react";
-import { StoreProvider } from "../storeSetup";
+import { StoreProvider } from "../store/storeSetup";
 import App from "./App";
 
 describe("Clear Button", () => {

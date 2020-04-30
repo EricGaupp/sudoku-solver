@@ -2,7 +2,7 @@ import React from "react";
 
 //MobX
 import { useObserver } from "mobx-react-lite";
-import { useStore } from "../storeSetup";
+import { useStore } from "../store/storeSetup";
 
 //MaterialUI Components
 import {
@@ -30,7 +30,7 @@ const App: React.FC = () => {
   const classes = useStyles();
 
   return useObserver(() => (
-    <ThemeProvider theme={createMuiTheme(uiStore.themeOptions)}>
+    <>
       <CssBaseline />
       <Grid
         className={classes.root}
@@ -71,7 +71,7 @@ const App: React.FC = () => {
         )}
       </Grid>
       <SettingsFab />
-    </ThemeProvider>
+    </>
   ));
 };
 

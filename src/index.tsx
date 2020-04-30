@@ -1,14 +1,17 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
-import { StoreProvider } from "./storeSetup";
+import { StoreProvider } from "./store/storeSetup";
+import { ThemeProvider } from "./themes/ThemeProvider";
 import App from "./components/App";
 import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(
   <React.StrictMode>
     <StoreProvider>
-      <App />
+      <ThemeProvider>
+        <App />
+      </ThemeProvider>
     </StoreProvider>
   </React.StrictMode>,
   document.getElementById("root")

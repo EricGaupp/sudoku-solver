@@ -2,7 +2,7 @@ import React from "react";
 
 //MobX
 import { useObserver } from "mobx-react-lite";
-import { useStore } from "../storeSetup";
+import { useStore } from "../store/storeSetup";
 
 //MaterialUI Components
 import {
