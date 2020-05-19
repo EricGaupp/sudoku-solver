@@ -5,11 +5,7 @@ import { useObserver } from "mobx-react-lite";
 import { useStore } from "../store/storeSetup";
 
 //MaterialUI Components
-import {
-  createMuiTheme,
-  makeStyles,
-  ThemeProvider,
-} from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import { CssBaseline, Grid, Typography } from "@material-ui/core";
 
 //Components
@@ -26,7 +22,7 @@ const useStyles = makeStyles({
 });
 
 const App: React.FC = () => {
-  const { puzzleStore, uiStore } = useStore();
+  const { puzzleStore } = useStore();
   const classes = useStyles();
 
   return useObserver(() => (

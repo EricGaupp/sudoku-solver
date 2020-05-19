@@ -1,31 +1,26 @@
 import React from "react";
-import { fireEvent, render } from "@testing-library/react";
-import { createMuiTheme, ThemeProvider } from "@material-ui/core";
-import { useStore, StoreProvider } from "../store/storeSetup";
-import { SudokuGrid } from "../types/SudokuTypes";
+import { fireEvent, render } from "../tests/test-utils";
+import { useStore } from "../store/storeSetup";
+import { createMuiTheme } from "@material-ui/core";
 import PuzzleBoard from "./PuzzleBoard";
 import PuzzleInput from "./PuzzleInput";
 
+const muiTheme = createMuiTheme({ palette: { type: "dark" } });
 const TestSetup: React.FC = () => {
-  const { puzzleStore, uiStore } = useStore();
-  const theme = createMuiTheme(uiStore.themeOptions);
+  const { puzzleStore } = useStore();
 
   return (
-    <StoreProvider>
-      <ThemeProvider theme={theme}>
-        <PuzzleBoard
-          gameState={puzzleStore.puzzleState}
-          render={({ value, x, y }) => (
-            <PuzzleInput
-              value={value}
-              handleChange={puzzleStore.handleInputChange}
-              x={x}
-              y={y}
-            />
-          )}
+    <PuzzleBoard
+      gameState={puzzleStore.puzzleState}
+      render={({ value, x, y }) => (
+        <PuzzleInput
+          value={value}
+          handleChange={puzzleStore.handleInputChange}
+          x={x}
+          y={y}
         />
-      </ThemeProvider>
-    </StoreProvider>
+      )}
+    />
   );
 };
 
@@ -36,8 +31,10 @@ describe("PuzzleBoard", () => {
     const gridB = getByTestId("row0-column2-grid");
     const inputA = getByTestId("row0-column0-input");
     const inputB = getByTestId("row0-column2-input");
+    console.log(muiTheme.palette.background.default);
+    console.log(gridA.style.backgroundColor);
     expect(gridA).toHaveStyle({
-      backgroundColor: "#fff",
+      backgroundColor: muiTheme.palette.background.default,
     }); //Needs to get the vaue from theme.palette.background.default
     expect(gridB).toHaveStyle({ backgroundColor: "#fff" }); //Needs to get the value from theme.palette.background.default
     expect(inputA).toBeInTheDocument();
